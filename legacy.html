@@ -1,0 +1,39 @@
+<script src="https://unpkg.com/alpinejs" defer></script>
+
+<script>
+function GuntraderGunAPI() {
+    return {
+        html: '<h1>Loading…</h1>',
+        async init() {
+            try {
+                // Retrieve the API feed without token, ip restricted.
+                //const response = await fetch("https://guntrader.uk/api/v1_/gun-rack/legacy", {
+
+                // Retrieve the API feed with a token, not ip restricted.
+                const response = await fetch("https://guntrader.uk/api/v1/gun-rack/legacy/", {
+                    headers: {
+                        "Authorization": "Bearer your-token-here", // replace "your-token-here" with your token
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+
+                this.html = await response.text();
+
+            } catch (error) {
+                this.message = 'Failed to load guns';
+                this.html = '<p>Error: ${error.message}</p>';
+            }
+        }
+    }
+}
+</script>
+
+<div x-data="GuntraderGunAPI()" x-init="init()" style="width: 100%; padding: 10px;">
+    <div x-text="message" style="margin-bottom: 20px; font-weight: bold;"></div>
+    <div x-html="html"></div>
+</div>

@@ -26,7 +26,7 @@ function GuntraderGunAPI() {
 
             } catch (error) {
                 this.message = 'Failed to load guns';
-                this.html = '<p>Error: ${error.message}</p>';
+                this.html = '<p>Error: '+error.message+'</p>';
             }
         }
     }
